@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.pdw.wechat.view.ChatToolbarView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_tool_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#0000bb"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_chat_input"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/iv_voice"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@mipmap/ic_voice" />
+
+        <RelativeLayout
+            android:id="@+id/rl_action_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/iv_more"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:padding="10dp"
+                android:src="@mipmap/ic_more" />
+
+            <Button
+                android:id="@+id/btn_send"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:padding="10dp"
+                android:text="Send"
+                android:visibility="gone"
+                android:textAllCaps="false" />
+        </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/iv_emoji"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/rl_action_layout"
+            android:padding="10dp"
+            android:src="@mipmap/ic_emoji" />
+
+        <EditText
+            android:id="@+id/et_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="20dp"
+            android:layout_toStartOf="@id/iv_emoji"
+            android:layout_toEndOf="@id/iv_voice"
+            android:textColor="@android:color/darker_gray" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_more_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:fadingEdge="none"
+        android:fadingEdgeLength="0dp"
+        android:overScrollMode="never"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="4"
+        tools:listitem="@layout/view_fun_icon" />
+</com.pdw.wechat.view.ChatToolbarView>
