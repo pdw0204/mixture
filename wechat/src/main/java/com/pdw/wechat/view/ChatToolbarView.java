@@ -1,5 +1,6 @@
 package com.pdw.wechat.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,8 +22,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pdw.assets.SysUtils;
+import com.pdw.wechat.ChatFragment;
 import com.pdw.wechat.MessageSender;
 import com.pdw.wechat.R;
 import com.pdw.wechat.entity.TextMessage;
@@ -39,14 +43,17 @@ import java.util.List;
  * @author Corgi
  * @date 2021/2/15
  */
-public class ChatToolbarView extends LinearLayout implements View.OnClickListener, KeyboardWatchLayout.KeyboardStateChangedListener {
+public class ChatToolbarView extends LinearLayout implements View.OnClickListener,
+        KeyboardWatchLayout.KeyboardStateChangedListener {
 
     private RecyclerView mRecyclerView;
     private ViewGroup mInputLayout;
     private Button mSend;
     private View mMore;
+    private EditText mInput;
 
     private MessageSender mMessageSender;
+    private Host mHost;
 
     public ChatToolbarView(@NonNull Context context) {
         this(context, null);
@@ -73,8 +80,6 @@ public class ChatToolbarView extends LinearLayout implements View.OnClickListene
         super.onFinishInflate();
         onViewCreated(this);
     }
-
-    private EditText mInput;
 
     private void onViewCreated(@NonNull View view) {
         mInputLayout = view.findViewById(R.id.rl_chat_input);
@@ -115,7 +120,11 @@ public class ChatToolbarView extends LinearLayout implements View.OnClickListene
         mSend.setOnClickListener(this);
     }
 
-    private static class ListAdapter extends RecyclerView.Adapter<ViewHolder> {
+    public void setHost(Host mHost) {
+        this.mHost = mHost;
+    }
+
+    private class ListAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         private final List<String> data = new ArrayList<>();
 
@@ -132,7 +141,7 @@ public class ChatToolbarView extends LinearLayout implements View.OnClickListene
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.bind(data.get(position));
+            holder.bind(mHost, data.get(position));
         }
 
         @Override
@@ -185,11 +194,19 @@ public class ChatToolbarView extends LinearLayout implements View.OnClickListene
             super(itemView);
         }
 
-        void bind(String title) {
+        void bind(Host host, String title) {
             ((TextView) (itemView.findViewById(R.id.tv_title))).setText(title);
             itemView.setOnClickListener(v -> {
-                Toast.makeText(itemView.getContext(), "open:" + title, Toast.LENGTH_SHORT).show();
+                if ("相册".equals(title)) {
+                    SysUtils.openGallery(host.getFragment(), ChatFragment.REQUEST_CODE);
+                }
             });
         }
+    }
+
+    public interface Host {
+        Activity getActivity();
+
+        Fragment getFragment();
     }
 }
